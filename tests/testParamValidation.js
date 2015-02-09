@@ -1,13 +1,29 @@
 /**
- * Created by bdunn on 18/09/2014.
+ * Created by nrosenberg on 2015-02-09.
  */
 var Validator = require('../lib/modelValidator');
 var swagger = {};
 var validator = new Validator(swagger);
 
-//TODO required, muliple
-
 module.exports.validationTests = {
+    testRequired: function(test) {
+        var data = {
+            travis: 'test',
+        };
+        var spec = {
+            parameters: [{
+                name: 'req',
+                required: true,
+
+            }]
+        };
+
+        var errors = swagger.validateParams(spec, data);
+        test.expect(2);
+        test.ok(!errors.valid);
+        test.ok(errors.GetErrorMessages()[0].indexOf('equired') !== -1);
+        test.done();
+    },
     testValidNumber: function(test) {
         var data = {
             travis: 'test',
